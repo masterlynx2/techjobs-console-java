@@ -2,7 +2,10 @@ package org.launchcode.techjobs.console;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
+
+import static org.launchcode.techjobs.console.JobData.findByValue;
 
 /**
  * Created by LaunchCode
@@ -11,7 +14,7 @@ public class TechJobs {
 
     private static Scanner in = new Scanner(System.in);
 
-    public static void main (String[] args) {
+    public static void main(String[] args) {
 
         // Initialize our field map with key/name pairs
         HashMap<String, String> columnChoices = new HashMap<>();
@@ -58,10 +61,11 @@ public class TechJobs {
 
                 // What is their search term?
                 System.out.println("\nSearch term: ");
+
                 String searchTerm = in.nextLine();
 
                 if (searchField.equals("all")) {
-                    System.out.println("Search all fields not yet implemented.");
+                    printJobs(JobData.findByValue(searchField));
                 } else {
                     printJobs(JobData.findByColumnAndValue(searchField, searchTerm));
                 }
@@ -103,14 +107,30 @@ public class TechJobs {
                 validChoice = true;
             }
 
-        } while(!validChoice);
+        } while (!validChoice);
 
         return choiceKeys[choiceIdx];
     }
 
     // Print a list of jobs
-    private static void printJobs(ArrayList<HashMap<String, String>> someJobs) {
+   private static void printJobs(ArrayList<HashMap<String, String>> someJobs) {
+        int numJob = 0;
+        ArrayList<HashMap<String, String>> jobs = someJobs;
+        for (HashMap<String, String> job : jobs) {
+            System.out.println("\n...................");
 
-        System.out.println("printJobs is not implemented yet");
+
+            for (Map.Entry<String, String> printJobs : job.entrySet()) {
+                System.out.println(printJobs.getKey() + ": " + printJobs.getValue());
+
+            }
+            numJob++;
+        }
+        System.out.println("....................");
+        if (numJob == 0) {
+            System.out.println("there are no jobs with that reference");
+        } else {
+            System.out.println("there are " + numJob + "in this list.");
+        }
     }
 }
